@@ -33,7 +33,7 @@ function! s:VIW()
   echo vaw
   if vaw !~ '\m[\x1b]' " If the result contains an <Esc>, not in our TO
     if vaw =~ '\(\d\+\)\D*\1'
-
+      " if bug? needs a line between prev and next?
       let vaw = "\<c-\>\<c-n>\<esc>"
     else
       let vaw .= 'k'
@@ -54,6 +54,9 @@ if !hasmapto('<Plug>InnerWhitelines')
   vmap     <unique><silent> iw <Plug>InnerWhitelines
   onoremap <unique>         iw :normal viw<CR>
 endif
+
+
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
