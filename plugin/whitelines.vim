@@ -31,8 +31,10 @@ endfunction
 function! s:VIW()
   let vaw = s:VAW()
   if vaw !~ '\m[\x1b]' " If the result contains an <Esc>, not in our TO
-    if vaw =~ '\(\d\+\)\D*\1'           " same number means one line
-      let vaw = "\<c-\>\<c-n>\<esc>"    " so cancel visual mode
+    if vaw =~ '\(\d\+\)\D*\1'
+      " same number means one line
+      " so cancel visual mode
+      let vaw = "\<c-\>\<c-n>\<esc>"
     else
       let vaw .= 'k'
     endif
