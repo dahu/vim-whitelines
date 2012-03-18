@@ -30,11 +30,9 @@ endfunction
 
 function! s:VIW()
   let vaw = s:VAW()
-  echo vaw
   if vaw !~ '\m[\x1b]' " If the result contains an <Esc>, not in our TO
-    if vaw =~ '\(\d\+\)\D*\1'
-      " if bug? needs a line between prev and next?
-      let vaw = "\<c-\>\<c-n>\<esc>"
+    if vaw =~ '\(\d\+\)\D*\1'           " same number means one line
+      let vaw = "\<c-\>\<c-n>\<esc>"    " so cancel visual mode
     else
       let vaw .= 'k'
     endif
@@ -46,17 +44,14 @@ vnoremap <expr> <Plug>AllWhitelines   <SID>VAW()
 vnoremap <expr> <Plug>InnerWhitelines <SID>VIW()
 
 if !hasmapto('<Plug>AllWhitelines')
-  vmap     <unique><silent> aw <Plug>AllWhitelines
-  onoremap <unique><silent> aw :normal vaw<CR>
+  vmap     <unique><silent> am <Plug>AllWhitelines
+  onoremap <unique><silent> am :normal vam<CR>
 endif
 
 if !hasmapto('<Plug>InnerWhitelines')
-  vmap     <unique><silent> iw <Plug>InnerWhitelines
-  onoremap <unique>         iw :normal viw<CR>
+  vmap     <unique><silent> im <Plug>InnerWhitelines
+  onoremap <unique><silent> im :normal vim<CR>
 endif
-
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
