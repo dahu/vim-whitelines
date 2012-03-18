@@ -30,9 +30,11 @@ endfunction
 
 function! s:VIW()
   let vaw = s:VAW()
+  echo vaw
   if vaw !~ '\m[\x1b]' " If the result contains an <Esc>, not in our TO
-    if vaw =~ '\(\d\+\)\D*\1'          " same line number
-      let vaw = "\<c-\>\<c-n>\<esc>"   " so do nothing
+    if vaw =~ '\(\d\+\)\D*\1'
+
+      let vaw = "\<c-\>\<c-n>\<esc>"
     else
       let vaw .= 'k'
     endif
@@ -50,11 +52,8 @@ endif
 
 if !hasmapto('<Plug>InnerWhitelines')
   vmap     <unique><silent> iw <Plug>InnerWhitelines
-  onoremap <unique><silent> iw :normal viw<CR>
+  onoremap <unique>         iw :normal viw<CR>
 endif
-
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
