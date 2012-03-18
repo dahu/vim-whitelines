@@ -18,7 +18,7 @@ endif
 let g:loaded_whitelines = 1
 
 function! s:VAW()
-  let vcmd = "\<C-\>\<C-n>\<Esc>"
+  let vcmd = "\<c-\>\<c-n>\<esc>"
   if search('^\s*\%#\s*$', 'cn')
     call search('\(\%^\|\S\_s\)\zs\_s*\%#\s*$', 'bW')
     let vcmd = getpos('.')[1] . "Go"
