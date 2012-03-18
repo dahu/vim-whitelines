@@ -9,6 +9,9 @@ Multiline Whitespace Text Objects
 These can be overridden by creating your own maps in your ~/.vimrc:
 
   vmap     az <Plug>AllWhitelines
+
   vmap     iz <Plug>InnerWhitelines
+
   onoremap az :normal vaz<cr>
+
   onoremap iz :normal viz<cr>
