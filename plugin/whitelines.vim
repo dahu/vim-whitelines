@@ -40,14 +40,21 @@ function! s:VIW()
   return vaw
 endfunction
 
-"vnoremap <expr> <Plug>AllWhitelines <SID>VAW()
-"vnoremap <expr> <Plug>InnerWhitelines <SID>VIW()
+vnoremap <expr> <Plug>AllWhitelines   <SID>VAW()
+vnoremap <expr> <Plug>InnerWhitelines <SID>VIW()
 
-vnoremap <expr> vaw <SID>VAW()
-vnoremap <expr> viw <SID>VIW()
+if !hasmapto('<Plug>AllWhitelines')
+  vmap     <unique><silent> aw <Plug>AllWhitelines
+  onoremap <unique><silent> aw :normal vaw<CR>
+endif
 
-onoremap aw :normal vaw<CR>
-onoremap iw :normal viw<CR>
+if !hasmapto('<Plug>InnerWhitelines')
+  vmap     <unique><silent> iw <Plug>InnerWhitelines
+  onoremap <unique><silent> iw :normal viw<CR>
+endif
+
+
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
