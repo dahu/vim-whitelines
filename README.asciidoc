@@ -1,16 +1,20 @@
 Vim Whitelines
 --------------
 
-Multiline Whitespace Text Objects
+__Whitespace Text Objects for Vim__
 
-* am - all multiline whitespace
-* im - inner multiline whitespace
+TIP: If you like vim-whitelines and want to share the W00t!, I'm grateful for
+https://www.gittip.com/bairuidahu/[tips] or
+http://of-vim-and-vigor.blogspot.com/[beverages].
+
+* az - all multiline whitespace
+* iz - inner multiline whitespace
 
 These can be overridden by creating your own maps in your ~/.vimrc:
 
-  vmap     az <Plug>AllWhitelines
+  vmap     az <Plug>AllWhitespace
 
-  vmap     iz <Plug>InnerWhitelines
+  vmap     iz <Plug>InnerWhitespace
 
   onoremap az :normal vaz<cr>
 

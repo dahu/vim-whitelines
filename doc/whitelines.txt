@@ -1,0 +1,35 @@
+*whitelines.txt*	Whitespace Text Object
+
+
+			VIM REFERENCE MANUAL	by Barry Arthur
+
+
+Help on using whitelines                                      *whitelines*
+
+1. Introduction				|whitelines-intro|
+
+==============================================================================
+ 1. INTRODUCTION                                        *whitelines-intro*
+
+vim-whitelines is a plugin providing two |text-objects| for operating
+on whitespace.
+
+                                                                      *az*
+az~
+
+The |az| object selects all whitespace around the cursor, including
+trailing whitespace behind non-white on the first line and leading
+whitespace before non-white on the last line.
+
+                                                                      *iz*
+iz~
+
+The |iz| object selects whitespace around the cursor, excluding
+trailing whitespace behind non-white on the first line and leading
+whitespace before non-white on the last line.
+
+==============================================================================
+
+
+Template From: https://github.com/dahu/Area-41/
+ vim:tw=78:ts=8:ft=help:norl:

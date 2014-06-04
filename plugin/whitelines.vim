@@ -17,42 +17,53 @@ if exists("g:loaded_whitelines")
 endif
 let g:loaded_whitelines = 1
 
-function! s:VAW()
-  let vcmd = "\<c-\>\<c-n>\<esc>"
-  if search('^\s*\%#\s*$', 'cn')
-    call search('\(\%^\|\S\_s\)\zs\_s*\%#\s*$', 'bW')
-    let vcmd = getpos('.')[1] . "Go"
-    call search('\_s*\(\%$\n\|\ze\S\)', 'eW')
-    let vcmd .= getpos('.')[1] . "G"
-  endif
-  return vcmd
+
+function! s:positions_to_visual_selection(spos, epos)
+  return a:spos[1] . 'G0' . a:spos[2] . '|' . 'o' . a:epos[1] . 'G0' . a:epos[2] . '|'
 endfunction
 
-function! s:VIW()
-  let vaw = s:VAW()
-  if vaw !~ '\m[\x1b]' " If the result contains an <Esc>, not in our TO
-    if vaw =~ '\(\d\+\)\D*\1'
-      " same number means one line
-      " so cancel visual mode
-      let vaw = "\<c-\>\<c-n>\<esc>"
-    else
-      let vaw .= 'k'
-    endif
-  endif
-  return vaw
+function! s:get_positions(spat, epat)
+  let curpos = getpos('.')
+  call search(a:spat, 'bcW')
+  let spos = getpos('.')
+  call setpos('.', curpos)
+  call search(a:epat, 'ceW')
+  let epos = getpos('.')
+  return [spos, epos]
 endfunction
 
-vnoremap <expr> <Plug>AllWhitelines   <SID>VAW()
-vnoremap <expr> <Plug>InnerWhitelines <SID>VIW()
+function! s:get_region(in, spat, epat)
+  if call(a:in, [])
+    let [spos, epos] = s:get_positions(a:spat, a:epat)
+    return s:positions_to_visual_selection(spos, epos)
+  else
+    return "\<c-\>\<c-n>"
+  endif
+endfunction
 
-if !hasmapto('<Plug>AllWhitelines')
-  vmap     <unique><silent> am <Plug>AllWhitelines
-  onoremap <unique><silent> am :normal vam<CR>
+function! s:in_white()
+  return getline('.')[col('.')-1] =~ '^\s\?$'
+endfunction
+
+function! s:VAWS()
+  return s:get_region('s:in_white', '\S\zs\_s', '\_s\S\@=')
+endfunction
+
+function! s:VIWS()
+  return s:get_region('s:in_white', '\S\(\s*\n\)\=\zs\ze\_s*\%#', '\(\_s*\n\ze\s*\S\)\|\s*\ze\S')
+endfunction
+
+vnoremap <expr> <Plug>AllWhitespace    <SID>VAWS()
+vnoremap <expr> <Plug>InnerWhitespace  <SID>VIWS()
+
+if !hasmapto('<Plug>AllWhitespace')
+  vmap     <unique><silent> az <Plug>AllWhitespace
+  onoremap <unique><silent> az :normal vaz<CR>
 endif
 
-if !hasmapto('<Plug>InnerWhitelines')
-  vmap     <unique><silent> im <Plug>InnerWhitelines
-  onoremap <unique><silent> im :normal vim<CR>
+if !hasmapto('<Plug>InnerWhitespace')
+  vmap     <unique><silent> iz <Plug>InnerWhitespace
+  onoremap <unique><silent> iz :normal viz<CR>
 endif
 
 let &cpo = s:save_cpo
